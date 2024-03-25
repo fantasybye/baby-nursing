@@ -1,0 +1,28 @@
+.link {
+    height: 40px;
+    padding-left: 40px;
+    display: flex;
+    align-items: center;
+    margin: 4px;
+    color: rgba(0, 0, 0, 0.88);
+    border-radius: 8px;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.link:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+.link>p{
+    line-height: 40px;
+}
+
+.active {
+    background-color: #e6f4ff;
+    color: #1677ff;
+}
+
+.active:hover {
+    background-color: #e6f4ff;
+}
