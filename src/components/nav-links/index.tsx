@@ -22,7 +22,7 @@ export default function NavLinks() {
           <Link
             key={link.name}
             href={link.href}
-            className={cn([styles.link, {[styles.active]: link.href === pathname }])}
+            className={cn([styles.link, {[styles.active]: pathname.includes(link.href) }])}
           >
             <p>{link.name}</p>
           </Link>

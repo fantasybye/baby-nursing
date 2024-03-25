@@ -6,23 +6,4 @@
     width: 240px;
 }
 
-.header {
-    display: flex;
-    flex-direction: row;
-    font-size: 22px;
-    color: var(--text-color);
-    padding: 16px 24px;
-}
-
-.divider {
-    margin: 8px 10px 24px;
-    height: 1px;
-    background-color: var(--border-color);
-    width: calc(100% - 20px);
-}
-
-.icon {
-    color: var(--primary-color);
-    margin-right: 16px;
-}
 
