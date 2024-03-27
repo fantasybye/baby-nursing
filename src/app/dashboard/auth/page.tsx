@@ -9,8 +9,6 @@ import { AuthModal } from "./modal";
 
 import styles from './page.module.css';
 
-
-
 export default function Auth() {
     const ref = useRef<ModalRef<AuthItem>>(null)
     const dataSource=[

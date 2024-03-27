@@ -44,7 +44,7 @@ export default function Resume() {
             title: '操作',
             render: (_: unknown, record: any) => {
                 return (
-                    <Link href={`/resume/${record.id}`}>
+                    <Link href={`/dashboard/resume/${record.id}`}>
                         <Button type="link">
                             编辑
                         </Button>
@@ -64,7 +64,7 @@ export default function Resume() {
         },
     ]
     return <>
-        <Layout title="简历管理" extra={<AddButton href='/resume/create' label="新增简历"/>}>
+        <Layout title="简历管理" extra={<AddButton href='/dashboard/resume/create' label="新增简历"/>}>
             <Table columns={columns} dataSource={dataSource} pagination={{ hideOnSinglePage: true }}/>
         </Layout>
     </>

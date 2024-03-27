@@ -7,9 +7,9 @@ import styles from './index.module.css';
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-  { name: '简历管理', href: '/resume' },
-  { name: '认证管理', href: '/auth' },
-  { name: '分享管理', href: '/share' },
+  { name: '简历管理', href: '/dashboard/resume' },
+  { name: '认证管理', href: '/dashboard/auth' },
+  { name: '分享管理', href: '/dashboard/share' },
 ];
 
 export default function NavLinks() {

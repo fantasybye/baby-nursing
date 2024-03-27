@@ -61,7 +61,7 @@ export default function Share() {
             render: (_: unknown, record: any) => {
                 return (
                     <Space size="middle">
-                        <Link href={`/share/${record.id}`}>
+                        <Link href={`/dashboard/share/${record.id}`}>
                             <Button type="link">
                                 编辑
                             </Button>

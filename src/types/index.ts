@@ -12,3 +12,7 @@ export enum ShareStatus {
     Fail = 1,
     Wait = 2
 }
+
+export interface Resume {
+    
+}
