@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
-import { AppstoreOutlined } from "@ant-design/icons";
-import Link from "next/link";
-
-import SideBar from "@/components/side-bar";
 
 import './globals.css';
-
-import styles from "./layout.module.css";
+import { ConfigProvider } from "antd";
+import zhCN from 'antd/locale/zh_CN';
 
 export const metadata: Metadata = {
   title: "阿姨联盟",
@@ -19,11 +15,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh">
+    <html lang="zh-CN">
       <body>
-        <main>
+        <ConfigProvider locale={zhCN}>
           {children}
-        </main>
+        </ConfigProvider>
       </body>
     </html>
   );

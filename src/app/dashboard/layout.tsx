@@ -1,5 +1,5 @@
-import { AppstoreOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { AppstoreOutlined } from "@ant-design/icons";
 
 import SideBar from "@/components/side-bar";
 
@@ -10,15 +10,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <>
+  return <main>
     <div className={styles.header}>
         <div className={styles.icon}><AppstoreOutlined /></div>
-        <Link href='/' className={styles.text}>运营配置后台</Link>
+        <Link href='/dashboard' className={styles.text}>运营配置后台</Link>
     </div>
     <div className={styles.divider}/>
     <div  className={styles.content}>
       <SideBar />
-      <div style={{ flex: 1 }}>{children}</div>
+      <div className={styles.content}>{children}</div>
     </div>
-  </>;
+  </main>;
 }
