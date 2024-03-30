@@ -1,0 +1,17 @@
+.wxHead {
+    position: absolute;
+    top: 185px;
+    right: 40px;
+}
+
+.uploaderWrapper {
+    margin-left: -80px;
+}
+
+.uploaderDesc {
+    margin-bottom: 12px;
+}
+
+.subTitle {
+    margin: 12px 0 24px 24px;
+}

@@ -17,8 +17,10 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body>
-        <ConfigProvider locale={zhCN}>
-          {children}
+      <ConfigProvider locale={zhCN}>
+        <main>
+            {children}
+        </main>
         </ConfigProvider>
       </body>
     </html>

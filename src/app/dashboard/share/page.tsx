@@ -1,49 +1,58 @@
 "use client"
-import { Button, Table, Space, Tag } from "antd";
+import { useEffect, useState } from "react";
+import { Button, Table, Space, Tag, message } from "antd";
 import Link from "next/link";
 
 import Layout from "@/components/layout";
-import { ShareStatus } from "@/types";
+import { ShareStatus, Share as TShare } from "@/types";
+import { showEmployeeShare } from "@/api";
+
+import ShareForm from "./form";
 
 import styles from './page.module.css';
 
+type ShareData = TShare & { key: React.Key }
+
 export default function Share() {
-    const dataSource = [
-        {
-            key: 1,
-            id: 1,
-            userId: 123,
-            name: '张阿姨',
-            phone: 11122233345,
-            resumeId: 'JL001',
-            status: ShareStatus.Fail
-        }
-    ]
+    const [share, setShare] = useState<TShare>()
+    const [current, setCurrent] = useState<number>(1);
+    const [dataSource, setDataSource] = useState<ShareData[]>([]);
+
+    useEffect(() => {
+        showEmployeeShare({ current, pageSize: 20}).then((res) => {
+            if(res.data.code === 0) {
+                const data = JSON.parse(res.data.data)
+                setDataSource(data.map((i: TShare) => ({ ...i, key: i.ID})))
+            } else {
+                message.error(res.data.msg)
+            }
+        })
+    }, [current])
     const columns = [
         {
-            key: 'userId',
-            dataIndex: 'userId',
+            key: 'UserId',
+            dataIndex: 'UserId',
             title: '用户ID',
             width: 100
         },
         {
-            key: 'name',
-            dataIndex: 'name',
+            key: 'Name',
+            dataIndex: 'Name',
             title: '阿姨姓名'
         },
         {
-            key: 'phone',
-            dataIndex: 'phone',
+            key: 'Phone',
+            dataIndex: 'Phone',
             title: '阿姨电话'
         },
         {
-            key: 'resumeId',
-            dataIndex: 'resumeId',
+            key: 'EmployeeId',
+            dataIndex: 'EmployeeId',
             title: '简历ID'
         },
         {
-            key: 'status',
-            dataIndex: 'status',
+            key: 'Status',
+            dataIndex: 'Status',
             title: '状态',
             render: (status: ShareStatus) => {
                 switch(status) {
@@ -61,11 +70,14 @@ export default function Share() {
             render: (_: unknown, record: any) => {
                 return (
                     <Space size="middle">
-                        <Link href={`/dashboard/share/${record.id}`}>
-                            <Button type="link">
-                                编辑
-                            </Button>
-                        </Link>
+                        <Button 
+                            type="link" 
+                            onClick={() => { 
+                                setShare(record)
+                            }}
+                        >
+                            编辑
+                        </Button>
                         <Button 
                             type="link" 
                             onClick={() => { 
@@ -84,8 +96,28 @@ export default function Share() {
         },
     ]
     return <>
-        <Layout title="分享管理">
-            <Table columns={columns} dataSource={dataSource} pagination={{ hideOnSinglePage: true }}/>
+        <Layout 
+            title="分享管理" 
+            extra={!!share && 
+                <Button 
+                    onClick={() => { 
+                        setShare(undefined)
+                    }}
+                >
+                    返回
+                </Button>}>
+            {!share ? 
+                <Table 
+                    columns={columns} 
+                    dataSource={dataSource} 
+                    pagination={{ 
+                        hideOnSinglePage: true, 
+                        pageSize: 20,
+                        onChange(page) {
+                            setCurrent(page)
+                        }, 
+                    }}
+                /> : <ShareForm share={share}/>}
         </Layout>
     </>
 }

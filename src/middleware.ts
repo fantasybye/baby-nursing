@@ -1,17 +1,17 @@
-import type { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
  
 export function middleware(request: NextRequest) {
-  const authSession = request.cookies.get('gin-session')?.value
-  
+  const authSession = request.cookies.get('gin-session')?.value;
+
   // if (authSession && !request.nextUrl.pathname.startsWith('/dashboard')) {
-  //   return Response.redirect(new URL('/dashboard', request.url))
+  //   return NextResponse.redirect(new URL('/dashboard', request.url))
   // }
   
-  // if (!authSession && !request.nextUrl.pathname.startsWith('/login')) {
-  //   return Response.redirect(new URL('/login', request.url))
+  // if (!authSession) {
+  //   return NextResponse.redirect(new URL('/', request.url))
   // }
 }
  
 export const config = {
-  matcher: '/:path*',
+  matcher: '/dashboard/:path*',
 }

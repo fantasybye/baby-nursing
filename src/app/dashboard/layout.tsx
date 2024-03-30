@@ -5,12 +5,12 @@ import SideBar from "@/components/side-bar";
 
 import styles from "./layout.module.css";
 
-export default function RootLayout({
+export default function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main>
+  return <>
     <div className={styles.header}>
         <div className={styles.icon}><AppstoreOutlined /></div>
         <Link href='/dashboard' className={styles.text}>运营配置后台</Link>
@@ -20,5 +20,5 @@ export default function RootLayout({
       <SideBar />
       <div className={styles.content}>{children}</div>
     </div>
-  </main>;
+  </>;
 }

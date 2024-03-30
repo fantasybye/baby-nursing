@@ -1,13 +1,16 @@
 import Layout from "@/components/layout";
 
+import ResumeForm from "../form";
+
 import styles from './page.module.css';
 
 
-export default function ShareDetail({ params }: { params: { shareId: string } }) {
-    const { shareId }= params
+export default function ResumeDetail({ params }: { params: { resumeId: string } }) {
+    const { resumeId }= params;
+   
     return <>
         <Layout title="分享">
-            这是简历{shareId}
+            <ResumeForm id={resumeId} />
         </Layout>
     </>
 }
