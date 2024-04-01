@@ -1,11 +1,12 @@
 "use client"
 import { useEffect, useState } from "react";
-import { Form, Input, Radio, Spin, message } from "antd";
+import { Button, Form, Input, Radio, Spin, message } from "antd";
 import { useForm } from "antd/es/form/Form";
-import { showEmployeeDetail } from "@/api";
+import { editEmployee, showEmployeeDetail } from "@/api";
 import { PreviewUploader } from "@/components/preview-uploader";
 
 import styles from './index.module.css'
+import { Resume } from "@/types";
 
 const { Item } = Form;
 
@@ -33,7 +34,20 @@ export default function ResumeForm({ id } : { id?: string }) {
         return <Spin spinning/>
 
     return (
-        <Form form={form} labelCol={{ span: 4 }} wrapperCol={{ span: 14 }}>
+        <Form 
+            form={form}
+            labelCol={{ span: 4 }} 
+            wrapperCol={{ span: 14 }} 
+            onFinish={(values: Resume) => {
+                editEmployee({ ...values, Status: 1 }).then((res) => {
+                    if(res.data.code === 0) {
+                        message.success('提交成功')
+                    } else {
+                        message.error(res.data.msg)
+                    }
+                })
+            }}
+        >
             <h2 className={styles.subTitle}>基本信息</h2>
             <Item name="Name" label="姓名">
                 <Input placeholder="请输入姓名"/>
@@ -106,18 +120,29 @@ export default function ResumeForm({ id } : { id?: string }) {
                 <Input placeholder="请输入工作意向"/>
             </Item>
             <h2 className={styles.subTitle}>图片信息</h2>
-            <Item wrapperCol={{ offset: 4 }} className={styles.uploaderWrapper}>
+            <Item name="Head" wrapperCol={{ offset: 4 }} className={styles.uploaderWrapper}>
                 <div className={styles.uploaderDesc}>请上传阿姨的头像（最多可上传 1 张）</div>
-                <PreviewUploader />
+                <PreviewUploader onChange={(urls) => {if(urls.length === 1) form.setFieldsValue({Head: urls[0]})}}/>
             </Item>
-            <Item wrapperCol={{ offset: 4 }} className={styles.uploaderWrapper}>
+            <Item name="IDCard" wrapperCol={{ offset: 4 }} className={styles.uploaderWrapper}>
+                <div className={styles.uploaderDesc}>请上传阿姨的身份证（正反面）</div>
+                <PreviewUploader max={2} onChange={(urls) => { form.setFieldsValue({IDCard: urls})}}/>
+            </Item>
+            <Item name="Qualifications" wrapperCol={{ offset: 4 }} className={styles.uploaderWrapper}>
                 <div className={styles.uploaderDesc}>请上传阿姨的资格证书（最多可上传 6 张）</div>
-                <PreviewUploader max={6}/>
+                <PreviewUploader max={6}  onChange={(urls) => { form.setFieldsValue({Qualifications: urls})}}/>
             </Item>
-            <Item wrapperCol={{ offset: 4 }} className={styles.uploaderWrapper}>
-                <div className={styles.uploaderDesc}>请上传阿姨的工作照或者月子餐照（最多可上传 6 张）</div>
-                <PreviewUploader max={6}/>
+            <Item name="Reviews" wrapperCol={{ offset: 4 }} className={styles.uploaderWrapper}>
+                <div className={styles.uploaderDesc}>请上传阿姨的评价截图（最多可上传 6 张）</div>
+                <PreviewUploader max={6}  onChange={(urls) => { form.setFieldsValue({Reviews: urls})}}/>
             </Item>
+            <Item name="Recommend" wrapperCol={{ offset: 4 }} className={styles.uploaderWrapper}>
+                <div className={styles.uploaderDesc}>请上传阿姨的推荐帖（最多可上传 6 张）</div>
+                <PreviewUploader max={6}  onChange={(urls) => { form.setFieldsValue({Recommend: urls})}}/>
+            </Item>
+            <div className={styles.footer}>
+                <Button htmlType="submit" type="primary" style={{ width: 160 }}>提交</Button>
+            </div>
         </Form>
     )
 }

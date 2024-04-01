@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import Layout from "@/components/layout";
 import { ShareStatus, Share as TShare } from "@/types";
-import { showEmployeeShare } from "@/api";
+import { editEmployeeShare, showEmployeeShare } from "@/api";
 
 import ShareForm from "./form";
 
@@ -81,12 +81,28 @@ export default function Share() {
                         <Button 
                             type="link" 
                             onClick={() => { 
+                                editEmployeeShare({ id: record.ID, status: 1, employee_id: record.EmployeeId })
+                                .then((res) => {
+                                    if(res.data.code === 0) {
+                                        message.success('分享通过')
+                                    } else {
+                                        message.error(res.data.msg)
+                                    }
+                                })
                             }}>
                             通过
                         </Button>
                         <Button 
                             type="link" 
                             onClick={() => { 
+                                editEmployeeShare({ id: record.ID, status: 0, employee_id: record.EmployeeId })
+                                .then((res) => {
+                                    if(res.data.code === 0) {
+                                        message.warning('分享不通过')
+                                    } else {
+                                        message.error(res.data.msg)
+                                    }
+                                })
                             }}>
                             不通过
                         </Button>

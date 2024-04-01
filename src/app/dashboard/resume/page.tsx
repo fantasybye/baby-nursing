@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button, Table, message } from "antd";
 import Link from "next/link";
 
-import { showEmployee } from "@/api";
+import { editEmployee, showEmployee } from "@/api";
 import { Resume as TResume } from "@/types";
 import Layout from "@/components/layout";
 import AddButton from "@/components/create-button";
@@ -77,9 +77,17 @@ export default function Resume() {
             dataIndex: 'isEffect',
             title: '状态',
             width: '15%',
-            render: (isEffect: boolean) => {
+            render: (isEffect: boolean, record: any) => {
                 return (
-                    <Button type="link">{isEffect ? '生效' : '失效'}</Button>
+                    <Button type="link" onClick={() => {
+                        editEmployee({ ...record, Status: isEffect ? 1 : 0}).then((res) => {
+                            if(res.data.code === 0) {
+                                message.success('提交成功')
+                            } else {
+                                message.error(res.data.msg)
+                            }
+                        })
+                    }}>{isEffect ? '生效' : '失效'}</Button>
                 )
             }
         },

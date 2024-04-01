@@ -1,5 +1,6 @@
 const API_HOST = 'http://47.99.161.231:3000';
 
+import { Resume } from '@/types';
 import axios from 'axios';
 
 function get(path: string, params: Record<string, any>) {
@@ -18,6 +19,17 @@ export function showEmployee(page: { current: number, pageSize: number}) {
     })
 }
 
+export function editEmployee(body: Resume) {
+    return post(`/employee_edit`, {
+       ...body
+    })
+}
+
+export function editEmployeeShare(body: { id: number, status: number, employee_id: number}) {
+    return post(`/employee_share_edit`, {
+       ...body
+    })
+}
 export function showEmployeeDetail(body: { id: number}) {
     return get(`/employee_detail`, {
        ...body
