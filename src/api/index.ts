@@ -1,7 +1,7 @@
-const API_HOST = 'http://47.99.161.231:3000';
-
-import { Resume } from '@/types';
 import axios from 'axios';
+import { Resume } from '@/types';
+
+const API_HOST = 'http://bops.ayilianmeng.com:443';
 
 function get(path: string, params: Record<string, any>) {
     return axios.get(`${API_HOST}${path}`, { params: { ...params }, withCredentials: true });
@@ -30,7 +30,7 @@ export function editEmployeeShare(body: { id: number, status: number, employee_i
        ...body
     })
 }
-export function showEmployeeDetail(body: { id: number}) {
+export function showEmployeeDetail(body: { id: number, userId: number }) {
     return get(`/employee_detail`, {
        ...body
     })

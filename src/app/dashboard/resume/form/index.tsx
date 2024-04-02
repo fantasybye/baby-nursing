@@ -17,7 +17,8 @@ export default function ResumeForm({ id } : { id?: string }) {
         if(id) {
             setLoading(true);
             showEmployeeDetail({
-                id: Number(id)
+                id: Number(id),
+                userId: 0
             }).then((res) => {
                 if(res.data.code === 0) {
                     form.setFieldsValue({ ...JSON.parse(res.data.data) })
