@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Resume } from '@/types';
 
-const API_HOST = 'http://bops.ayilianmeng.com:443';
+const API_HOST = 'https://api.ayilianmeng.com';
 
 function get(path: string, params: Record<string, any>) {
     return axios.get(`${API_HOST}${path}`, { params: { ...params }, withCredentials: true });
