@@ -10,7 +10,7 @@ import { Resume } from "@/types";
 
 const { Item } = Form;
 
-export default function ResumeForm({ id } : { id?: string }) {
+export default function ResumeForm({ id } : { id?: string | null }) {
     const [form] = useForm();
     const [loading, setLoading] = useState<boolean>(false);
     useEffect(() => {

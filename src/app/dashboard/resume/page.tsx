@@ -64,7 +64,7 @@ export default function Resume() {
             width: '10%',
             render: (_: unknown, record: any) => {
                 return (
-                    <Link href={`/dashboard/resume/${record.ID}`}>
+                    <Link href={`/dashboard/resume/edit?id=${record.ID}`}>
                         <Button type="link">
                             编辑
                         </Button>
