@@ -15,15 +15,17 @@ type ResumeData = TResume & { key: React.Key }
 export default function Resume() {
     const [dataSource, setDataSource] = useState<ResumeData[]>([]);
     const [current, setCurrent] = useState<number>(1);
+    const [hasMore, setHasMore] = useState<boolean>(false);
 
     useEffect(() => {
         showEmployee({
             current,
-            pageSize: 20
+            pageSize: 15
         }).then((res) => {
             if(res.data.code === 0) {
                 const data = JSON.parse(res.data.data)
                 setDataSource(data.map((i: TResume) => ({ ...i, key: i.ID})))
+                setHasMore(res.data.has_more === 1)
             } else {
                 message.error(res.data.msg)
             }
@@ -38,24 +40,24 @@ export default function Resume() {
             width: '10%'
         },
         {
-            key: 'EmployeeType',
-            dataIndex: 'EmployeeType',
+            key: 'employee_type',
+            dataIndex: 'employee_type',
             title: '阿姨类型',
             width: '15%'
         },
         {
-            key: 'Name',
-            dataIndex: 'Name',
+            key: 'name',
+            dataIndex: 'name',
             title: '姓名',
             width: '25%',
         },
         {
-            key: 'WorkCity',
-            dataIndex: 'WorkCity',
+            key: 'work_city',
+            dataIndex: 'work_city',
             title: '接单城市',
             width: '25%',
             render: (_: string[]) => {
-                return <div>{_?.join(',')}</div>
+                return <div>{!_?.length ? '-' :_?.join('，')}</div>
             }
         },
         {
@@ -73,21 +75,21 @@ export default function Resume() {
             }
         },
         {
-            key: 'isEffect',
-            dataIndex: 'isEffect',
+            key: 'status',
+            dataIndex: 'status',
             title: '状态',
             width: '15%',
-            render: (isEffect: boolean, record: any) => {
+            render: (status: number, record: any) => {
                 return (
                     <Button type="link" onClick={() => {
-                        editEmployee({ ...record, Status: isEffect ? 1 : 0}).then((res) => {
+                        editEmployee({ ...record, status: status === 0 ? 1 : 0}).then((res) => {
                             if(res.data.code === 0) {
                                 message.success('提交成功')
                             } else {
                                 message.error(res.data.msg)
                             }
                         })
-                    }}>{isEffect ? '生效' : '失效'}</Button>
+                    }}>{status === 0 ? '生效' : '失效'}</Button>
                 )
             }
         },
@@ -97,14 +99,11 @@ export default function Resume() {
             <Table 
                 columns={columns} 
                 dataSource={dataSource} 
-                pagination={{ 
-                    hideOnSinglePage: true,
-                    pageSize: 20,
-                        onChange(page) {
-                        setCurrent(page)
-                    }, 
-                }}
+                pagination={false}
             />
+            <div className={styles.footer}>
+                {hasMore && <Button type="primary" onClick={() => setCurrent((prev) => prev + 1)}>下一页</Button>}
+            </div>
         </Layout>
     </>
 }

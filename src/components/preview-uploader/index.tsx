@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { Modal, Upload } from 'antd';
 import type { GetProp, UploadFile, UploadProps } from 'antd';
@@ -17,15 +17,29 @@ const getBase64 = (file: FileType): Promise<string> =>
   });
 
 interface PreviewUploaderProps {
+    value?: string[];
     max?: number;
     onChange?: (urls: string[]) => void;
 }
 
-export const PreviewUploader: React.FC<PreviewUploaderProps> = ({ max = 1, onChange }) => {
+export const PreviewUploader: React.FC<PreviewUploaderProps> = ({ value = [], max = 1, onChange }) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  useEffect(() => {
+    if(value instanceof Array && value.filter((v) => v !== '').length) {
+      setFileList(value.map((v, index) => (
+        {
+          uid: index.toString(),
+          name: 'image.png',
+          status: 'done',
+          url: v,
+        }
+      )))
+    }
+  }, [value])
 
   const handleCancel = () => setPreviewOpen(false);
 

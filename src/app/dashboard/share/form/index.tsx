@@ -14,17 +14,17 @@ export default function ShareForm({ share } : { share?: Share }) {
     }
     return <Form form={form} labelCol={{ span: 4 }}>  
         <Item label="用户ID">
-            {share.UserId}
+            {share.user_id}
         </Item>
         <Item label="阿姨姓名">
-            {share.Name}
+            {share.name}
         </Item>
         <Item label="阿姨电话">
-            {share.Phone}
+            {share.phone}
         </Item>
         <Item label="状态">
             {(() => {
-                 switch(share.Status) {
+                 switch(share.status) {
                     case ShareStatus.Pass: return <Tag color="success">通过</Tag> 
                     case ShareStatus.Fail: return <Tag color="error">不通过</Tag> 
                     case ShareStatus.Wait:
@@ -32,14 +32,14 @@ export default function ShareForm({ share } : { share?: Share }) {
                 }
             })()}
         </Item>
-        {share.EmployeeId && <Item name="EmployeeId" label="简历ID">
+        {share.employee_id && <Item name="employee_id" label="简历ID">
             <Input placeholder="请输入关联的简历ID" style={{width: 200}}/>
         </Item>}
         <Item label="推荐理由">
-            {share.Reason}
+            {share.reason}
         </Item>
         <Item label="上传图片">
-            <Space>{(JSON.parse(share.Cv) as string[])?.map((img) => <Image alt="" key={img} width={64} src={img} />)}</Space>
+            <Space>{(JSON.parse(share.cv) as string[])?.map((img) => <Image alt="" key={img} width={64} src={img} />)}</Space>
         </Item>
     </Form>
 }

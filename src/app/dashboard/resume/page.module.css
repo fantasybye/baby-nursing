@@ -12,3 +12,11 @@
 .content {
     flex: 1
 }
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 16px;
+    padding-right: 40px;
+}

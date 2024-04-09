@@ -21,47 +21,47 @@ export enum ResumeStatus {
 export interface Resume {
     // 个人信息
     ID: string,
-    Name: string,
-    Phone: string,
-    Wx: string,
-    WxUri: string,
-    BirthDay: string,
-    Height: number,
-    Edu: string,
-    Nation: string,
-    Birthplace: string,
+    name: string,
+    phone: string,
+    wx: string,
+    wx_uri: string,
+    birth_day: string,
+    height: number,
+    tdu: string,
+    nation: string,
+    birthplace: string,
     // 简历信息
-    EmployeeType: string,
-    WorkType: string,
-    WorkYears: number,
-    WorkCount: number,
-    WorkCity: string[],
-    WorkExp: string,
-    Introduction: string,
-    Home: string,
-    Domain: string,
-    Character: string[],
-    Tag: string[],
-    Salary: number,
-    Intent: string,
+    employee_type: string,
+    work_type: string,
+    work_years: number,
+    work_count: number,
+    work_city: string[],
+    work_exp: string,
+    introduction: string,
+    home: string,
+    domain: string,
+    character: string[],
+    tag: string[],
+    salary: number,
+    intent: string,
     // 图片信息
-    Head: string,
-    IDCard: string,
-    Qualifications: string[],
-    Reviews: string[],
-    Recommend: string[],
-    ManualOrder: number,
-    Status: ResumeStatus
+    head: string,
+    id_card: string,
+    qualifications: string[],
+    reviews: string[],
+    recommend: string[],
+    manual_order: number,
+    status: ResumeStatus
 }
 
 export interface Share {
     ID: number,
-    UserId: number;
-    Name: string;
-    Phone: string;
-    Status: ShareStatus
-    EmployeeId: string;
-    CvName: string;
-    Cv: string;
-    Reason: string;
+    user_id: number;
+    name: string;
+    phone: string;
+    status: ShareStatus
+    employee_id: string;
+    cv_name: string;
+    cv: string;
+    reason: string;
 }
