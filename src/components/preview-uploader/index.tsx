@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Modal, Upload } from 'antd';
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 import Image from 'next/image';
-import { picUploadAction } from '@/api';
+import { uploadImg } from '@/api';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -69,7 +69,7 @@ export const PreviewUploader: React.FC<PreviewUploaderProps> = ({ value = [], ma
   return (
     <>
       <Upload
-        action={picUploadAction}
+        action={(file) => { return getBase64(file).then((img: string) => uploadImg(img)).then((res) => res.data.url)}}
         listType="picture-card"
         fileList={fileList}
         onPreview={handlePreview}

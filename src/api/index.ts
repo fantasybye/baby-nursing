@@ -8,7 +8,7 @@ function get(path: string, params: Record<string, any>) {
 }
 
 function post(path: string, params: Record<string, any>) {
-    return axios.post(`${API_HOST}${path}`, { data: { ...params }, withCredentials: true });
+    return axios.post(`${API_HOST}${path}`, {...params},  { withCredentials: true, headers: { 'Content-Type': "application/form-data" }});
 }
 
 export function showEmployee(page: { current: number, pageSize: number}) {
@@ -59,4 +59,8 @@ export function login(params: { user_name: string, password: string}) {
     })
 }
 
-export const picUploadAction = `${API_HOST}/upload_img`
+export function uploadImg(img: string) {
+    return post(`/upload_img`, {
+        img,
+    })
+}
