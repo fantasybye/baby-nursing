@@ -8,7 +8,7 @@ function get(path: string, params: Record<string, any>) {
 }
 
 function post(path: string, params: Record<string, any>) {
-    return axios.post(`${API_HOST}${path}`, {...params},  { withCredentials: true, headers: { 'Content-Type': "application/form-data" }});
+    return axios.post(`${API_HOST}${path}`, { data: JSON.stringify(params) },  { withCredentials: true, headers: { 'Content-Type': "application/json" }});
 }
 
 export function showEmployee(page: { current: number, pageSize: number}) {
