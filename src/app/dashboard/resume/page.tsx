@@ -1,10 +1,10 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button, Table, message } from "antd";
 import Link from "next/link";
 
 import { editEmployee, showEmployee } from "@/api";
-import { Resume as TResume } from "@/types";
+import { ResumeStatus, Resume as TResume } from "@/types";
 import Layout from "@/components/layout";
 import AddButton from "@/components/create-button";
 
@@ -17,7 +17,7 @@ export default function Resume() {
     const [current, setCurrent] = useState<number>(1);
     const [hasMore, setHasMore] = useState<boolean>(false);
 
-    useEffect(() => {
+    const fetchData = useCallback(() => {
         showEmployee({
             current,
             pageSize: 15
@@ -30,7 +30,11 @@ export default function Resume() {
                 message.error(res.data.msg)
             }
         })
-    } ,[current])
+    }, [current])
+
+    useEffect(() => {
+        fetchData();
+    } ,[fetchData])
    
     const columns = [
         {
@@ -82,14 +86,15 @@ export default function Resume() {
             render: (status: number, record: any) => {
                 return (
                     <Button type="link" onClick={() => {
-                        editEmployee({ ...record, status: status === 0 ? 1 : 0}).then((res) => {
+                        editEmployee({ ...record, status: status === 2 ? 1 : 2}).then((res) => {
                             if(res.data.code === 0) {
                                 message.success('提交成功')
+                                fetchData();
                             } else {
                                 message.error(res.data.msg)
                             }
                         })
-                    }}>{status === 0 ? '生效' : '失效'}</Button>
+                    }}>{status === ResumeStatus.Valid ? '生效' : '失效'}</Button>
                 )
             }
         },

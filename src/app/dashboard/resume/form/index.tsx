@@ -1,7 +1,9 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button, Form, Input, Radio, Select, Spin, message } from "antd";
 import { useForm } from "antd/es/form/Form";
+import { useRouter } from "next/navigation";
+
 import { editEmployee, showEmployeeDetail } from "@/api";
 import { Resume } from "@/types";
 import { PreviewUploader } from "@/components/preview-uploader";
@@ -13,25 +15,31 @@ const { Option } = Select;
 
 export default function ResumeForm({ id } : { id?: string | null }) {
     const [form] = useForm();
+    const router = useRouter()
     const [loading, setLoading] = useState<boolean>(false);
+
+    const fetchData = useCallback((id: string) => {
+        setLoading(true);
+        showEmployeeDetail({
+            id: Number(id),
+            userId: 0
+        }).then((res) => {
+            if(res.data.code === 0) {
+                form.setFieldsValue({ ...JSON.parse(res.data.data) })
+            } else {
+                message.error(res.data.msg)
+            }
+        })
+        .finally(() => {
+            setLoading(false)
+        })
+    }, [form])
+
     useEffect(() => {
         if(id) {
-            setLoading(true);
-            showEmployeeDetail({
-                id: Number(id),
-                userId: 0
-            }).then((res) => {
-                if(res.data.code === 0) {
-                    form.setFieldsValue({ ...JSON.parse(res.data.data) })
-                } else {
-                    message.error(res.data.msg)
-                }
-            })
-            .finally(() => {
-                setLoading(false)
-            })
+            fetchData(id)
         }
-    }, [form, id])
+    }, [fetchData, form, id])
     if(loading)
         return <Spin spinning/>
 
@@ -41,12 +49,15 @@ export default function ResumeForm({ id } : { id?: string | null }) {
             labelCol={{ span: 4 }} 
             wrapperCol={{ span: 14 }} 
             onFinish={(values: Resume) => {
+                const input = !!id ? { ...values, ID: Number(id) } : { ...values };
                 editEmployee({
-                     ...values, 
+                     ...input, 
+                     height: Number(input.height),
                      status: 1 
                 }).then((res) => {
                     if(res.data.code === 0) {
                         message.success('提交成功')
+                        router.push('/dashboard/resume')
                     } else {
                         message.error(res.data.msg)
                     }

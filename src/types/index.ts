@@ -8,19 +8,19 @@ export interface ModalRef<T> {
 }
 
 export enum ShareStatus {
-    Pass = 0,
-    Fail = 1,
-    Wait = 2
+    Pass = 1,
+    Fail = 2,
+    Wait = 0
 }
 
 export enum ResumeStatus {
-    Valid = 0,
-    Invalid = 1
+    Valid = 1,
+    Invalid = 2
 }
 
 export interface Resume {
     // 个人信息
-    ID: string,
+    ID: number,
     name: string,
     phone: string,
     wx: string,

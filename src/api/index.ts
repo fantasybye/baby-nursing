@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Resume } from '@/types';
+import { Resume, Share } from '@/types';
 
 const API_HOST = 'https://bops.ayilianmeng.com:456';
 
@@ -8,7 +8,7 @@ function get(path: string, params: Record<string, any>) {
 }
 
 function post(path: string, params: Record<string, any>) {
-    return axios.post(`${API_HOST}${path}`, { data: JSON.stringify(params) },  { withCredentials: true, headers: { 'Content-Type': "application/json" }});
+    return axios.post(`${API_HOST}${path}`, { ...params },  { withCredentials: true, headers: { 'Content-Type': "application/json" }});
 }
 
 export function showEmployee(page: { current: number, pageSize: number}) {
@@ -25,7 +25,7 @@ export function editEmployee(body: Resume) {
     })
 }
 
-export function editEmployeeShare(body: { id: number, status: number, employee_id: number}) {
+export function editEmployeeShare(body: Share) {
     return post(`/employee_share_edit`, {
        ...body
     })

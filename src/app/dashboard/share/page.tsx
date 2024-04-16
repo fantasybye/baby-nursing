@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button, Table, Space, Tag, message } from "antd";
 import Link from "next/link";
 
@@ -18,7 +18,7 @@ export default function Share() {
     const [current, setCurrent] = useState<number>(1);
     const [dataSource, setDataSource] = useState<ShareData[]>([]);
 
-    useEffect(() => {
+    const fetchData = useCallback(() => {
         showEmployeeShare({ current, pageSize: 20}).then((res) => {
             if(res.data.code === 0) {
                 const data = JSON.parse(res.data.data)
@@ -28,31 +28,42 @@ export default function Share() {
             }
         })
     }, [current])
+
+    useEffect(() => {
+        fetchData()
+    }, [fetchData])
+
     const columns = [
         {
-            key: 'UserId',
-            dataIndex: 'UserId',
+            key: 'ID',
+            dataIndex: 'ID',
+            title: 'ID',
+            width: 100
+        },
+        {
+            key: 'user_id',
+            dataIndex: 'user_id',
             title: '用户ID',
             width: 100
         },
         {
-            key: 'Name',
-            dataIndex: 'Name',
+            key: 'name',
+            dataIndex: 'name',
             title: '阿姨姓名'
         },
         {
-            key: 'Phone',
-            dataIndex: 'Phone',
+            key: 'phone',
+            dataIndex: 'phone',
             title: '阿姨电话'
         },
         {
-            key: 'EmployeeId',
-            dataIndex: 'EmployeeId',
+            key: 'employee_id',
+            dataIndex: 'employee_id',
             title: '简历ID'
         },
         {
-            key: 'Status',
-            dataIndex: 'Status',
+            key: 'status',
+            dataIndex: 'status',
             title: '状态',
             render: (status: ShareStatus) => {
                 switch(status) {
@@ -81,10 +92,11 @@ export default function Share() {
                         <Button 
                             type="link" 
                             onClick={() => { 
-                                editEmployeeShare({ id: record.ID, status: 1, employee_id: record.EmployeeId })
+                                editEmployeeShare({ ...record, status: 1 })
                                 .then((res) => {
                                     if(res.data.code === 0) {
-                                        message.success('分享通过')
+                                        message.success('分享通过');
+                                        fetchData();
                                     } else {
                                         message.error(res.data.msg)
                                     }
@@ -95,10 +107,11 @@ export default function Share() {
                         <Button 
                             type="link" 
                             onClick={() => { 
-                                editEmployeeShare({ id: record.ID, status: 0, employee_id: record.EmployeeId })
+                                editEmployeeShare({  ...record, status: 2 })
                                 .then((res) => {
                                     if(res.data.code === 0) {
                                         message.warning('分享不通过')
+                                        fetchData();
                                     } else {
                                         message.error(res.data.msg)
                                     }
@@ -133,7 +146,7 @@ export default function Share() {
                             setCurrent(page)
                         }, 
                     }}
-                /> : <ShareForm share={share}/>}
+                /> : <ShareForm share={share} backward={() => { setShare(undefined) }}/>}
         </Layout>
     </>
 }
