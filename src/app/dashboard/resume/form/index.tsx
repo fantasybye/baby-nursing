@@ -208,7 +208,7 @@ export default function ResumeForm({ id } : { id?: string | null }) {
                     <Option value="干活利落">干活利落</Option>
                     <Option value="手脚勤快">手脚勤快</Option>
                     <Option value="细心认真">细心认真</Option>
-                    <Option value="城市可行">城市可行</Option>
+                    <Option value="诚实可信">城市可行</Option>
                     <Option value="通情达理">通情达理</Option>
                     <Option value="有爱心">有爱心</Option>
                     <Option value="有耐心">有耐心</Option>
@@ -229,7 +229,10 @@ export default function ResumeForm({ id } : { id?: string | null }) {
                 </Select>
             </Item>
             <Item name="tag" label="圈子标签">
-                <Input placeholder="请输入圈子标签"/>
+                <Select placeholder="请输入圈子标签" mode="multiple" showSearch>
+                    <Option value="阿里好阿姨">阿里好阿姨</Option>
+                    <Option value="京东好阿姨">京东好阿姨</Option>
+                </Select>
             </Item>
             <Item name="salary" label="期望薪资" initialValue={'面议'}>
                 <Input placeholder="请输入期望薪资"/>

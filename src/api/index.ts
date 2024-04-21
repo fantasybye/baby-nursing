@@ -62,6 +62,6 @@ export function login(params: { user_name: string, password: string}) {
 export function uploadImg(img: string) {
     return post(`/upload_img`, {
         open_id: 'admin',
-        img,
+        base64: img,
     })
 }

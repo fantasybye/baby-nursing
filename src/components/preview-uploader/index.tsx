@@ -69,7 +69,7 @@ export const PreviewUploader: React.FC<PreviewUploaderProps> = ({ value = [], ma
   return (
     <>
       <Upload
-        action={(file) => { return getBase64(file).then((img: string) => uploadImg(img)).then((res) => res.data)}}
+        action={(file) => { return getBase64(file).then((img: string) => uploadImg(img)).then((res) => res.data.data)}}
         listType="picture-card"
         fileList={fileList}
         onPreview={handlePreview}
