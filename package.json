@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "publish": "scp -r ./out/* root@47.99.161.231:/home/ecs-assist-user/server/alliance-server/assets/"
   },
   "dependencies": {
     "@ant-design/icons": "^4.8.3",
