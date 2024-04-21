@@ -53,6 +53,8 @@ export default function ResumeForm({ id } : { id?: string | null }) {
                 editEmployee({
                      ...input, 
                      height: Number(input.height),
+                     work_count: Number(input.work_count),
+                     work_years: Number(input.work_years),
                      status: 1 
                 }).then((res) => {
                     if(res.data.code === 0) {
