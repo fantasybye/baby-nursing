@@ -1,9 +1,8 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
-import { Modal, Upload } from 'antd';
+import { Modal, Upload, Image } from 'antd';
 import type { GetProp, UploadFile, UploadProps } from 'antd';
-import Image from 'next/image';
 import { uploadImg } from '@/api';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
@@ -25,7 +24,6 @@ interface PreviewUploaderProps {
 export const PreviewUploader: React.FC<PreviewUploaderProps> = ({ value = [], max = 1, onChange }) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
@@ -38,6 +36,15 @@ export const PreviewUploader: React.FC<PreviewUploaderProps> = ({ value = [], ma
           url: v,
         }
       )))
+    } else if(typeof value === 'string' && value !== '') {
+      setFileList(
+        [{
+          uid: Math.random().toString(),
+          name: 'image.png',
+          status: 'done',
+          url: value,
+        }]
+      )
     }
   }, [value])
 
@@ -50,14 +57,25 @@ export const PreviewUploader: React.FC<PreviewUploaderProps> = ({ value = [], ma
 
     setPreviewImage(file.url || (file.preview as string));
     setPreviewOpen(true);
-    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
   };
 
   const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    if(onChange) {
-        onChange(newFileList.filter((f) => !!f.url).filter((s) => s.status === 'done').map((item) => item.url!))
-    }
-    setFileList(newFileList);
+    const newFile = newFileList[newFileList.length - 1];
+    if(newFile?.originFileObj)
+      getBase64(newFile?.originFileObj).then((img) => {
+        uploadImg(img).then((res) => {
+          const newList:UploadFile[] = [...fileList,  {
+            uid: newFile.uid,
+            name: newFile.name,
+            status: 'done',
+            url: res.data.data,
+          }]
+          if(onChange) {
+            onChange(newList.filter((f) => !!f.url).filter((s) => s.status === 'done').map((item) => item.url!))
+          }
+          setFileList(newList);
+        })
+      })
   }
 
   const uploadButton = (
@@ -69,17 +87,35 @@ export const PreviewUploader: React.FC<PreviewUploaderProps> = ({ value = [], ma
   return (
     <>
       <Upload
-        action={(file) => { return getBase64(file).then((img: string) => uploadImg(img)).then((res) => res.data.data)}}
         listType="picture-card"
         fileList={fileList}
+        onRemove={(file) => {
+          const index = fileList.indexOf(file);
+          const newFileList = fileList.slice();
+          newFileList.splice(index, 1);
+          setFileList(newFileList);
+        }}
+        beforeUpload={() => {
+          return false;
+        }}
+        withCredentials
         onPreview={handlePreview}
         onChange={handleChange}
       >
         {fileList.length >= max ? null : uploadButton}
       </Upload>
-      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-        <Image alt="preview" style={{ width: '100%' }} src={previewImage} />
-      </Modal>
+     {previewImage &&
+        <Image
+          wrapperStyle={{ display: 'none' }}
+          alt="preview"
+          style={{ width: '100%' }} 
+          src={previewImage}
+          preview={{
+            visible: previewOpen,
+            onVisibleChange: (visible) => setPreviewOpen(visible),
+            afterOpenChange: (visible) => !visible && setPreviewImage(''),
+          }}
+        />}
     </>
   );
 };

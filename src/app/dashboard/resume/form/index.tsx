@@ -79,8 +79,9 @@ export default function ResumeForm({ id } : { id?: string | null }) {
             <Item label="微信二维码" shouldUpdate>
                 {({ getFieldValue }) => {
                     const wx_uri = getFieldValue('wx_uri');
+                    console.log([wx_uri])
                     return <Item name="wx_uri" >
-                        <PreviewUploader value={[wx_uri]} max={6} onChange={(urls) => {if(urls.length === 1) form.setFieldsValue({wx_uri: urls[0]})}}/>
+                        <PreviewUploader value={[wx_uri]} onChange={(urls) => {if(urls.length === 1) form.setFieldsValue({wx_uri: urls[0]})}}/>
                     </Item>
                 }}
              </Item>
@@ -247,47 +248,55 @@ export default function ResumeForm({ id } : { id?: string | null }) {
             <Item wrapperCol={{ offset: 4 }} className={styles.uploaderWrapper} shouldUpdate>
                 {({ getFieldValue }) => {
                     const head = getFieldValue('head');
-                    return <Item name="head"  className={styles.uploaderItem} >
-                        <div className={styles.uploaderDesc}>请上传阿姨的头像（最多可上传 1 张）</div>
-                        <PreviewUploader value={[head]} onChange={(urls) => {if(urls.length === 1) form.setFieldsValue({head: urls[0]})}}/>
+                    return <Item name="head" className={styles.uploaderItem} >
+                        <>
+                            <div className={styles.uploaderDesc}>请上传阿姨的头像（最多可上传 1 张）</div>
+                            <PreviewUploader value={[head]} onChange={(urls) => {if(urls.length === 1) form.setFieldsValue({head: urls[0]})}}/>
+                        </>
                     </Item>
                 }}
             </Item>
             <Item wrapperCol={{ offset: 4 }} className={styles.uploaderWrapper} shouldUpdate>
                 {({ getFieldValue }) => {
                     const id_card = getFieldValue('id_card');
-                    return <>
-                     <Item name="id_card"  className={styles.uploaderItem} > 
-                        <div className={styles.uploaderDesc}>请上传阿姨的身份证（正反面）</div>
-                       <PreviewUploader value={!id_card || id_card === "" ? [] : id_card} max={2} onChange={(urls) => { form.setFieldsValue({id_card: urls})}}/>
+                    return <Item name="id_card" className={styles.uploaderItem}> 
+                        <>
+                            <div className={styles.uploaderDesc}>请上传阿姨的身份证（正反面</div>
+                            <PreviewUploader value={!id_card || id_card === "" ? [] : id_card} max={2} onChange={(urls) => { form.setFieldsValue({id_card: urls})}}/>
+                        </>
                    </Item>
-                     </>
                 }}
             </Item>
             <Item wrapperCol={{ offset: 4 }} className={styles.uploaderWrapper} shouldUpdate>
                 {({ getFieldValue }) => {
                     const qualifications = getFieldValue('qualifications');
-                    return <Item name="qualifications"  className={styles.uploaderItem} >
-                        <div className={styles.uploaderDesc}>请上传阿姨的资格证书（最多可上传 6 张）</div>
-                        <PreviewUploader value={!qualifications || qualifications === "" ? [] : qualifications} max={6}  onChange={(urls) => { form.setFieldsValue({qualifications: urls})}}/>
+                    return <Item name="qualifications"  className={styles.uploaderItem}>
+                        <>
+                            <div className={styles.uploaderDesc}>请上传阿姨的资格证书（最多可上传 6 张）</div>
+                            <PreviewUploader value={!qualifications || qualifications === "" ? [] : qualifications} max={6}  onChange={(urls) => { form.setFieldsValue({qualifications: urls})}}/>
+                        </>
                     </Item>
                 }}
             </Item>
             <Item wrapperCol={{ offset: 4 }} className={styles.uploaderWrapper} shouldUpdate>
                 {({ getFieldValue }) => {
                     const reviews = getFieldValue('reviews');
-                    return <Item name="reviews"  className={styles.uploaderItem} >
-                            <div className={styles.uploaderDesc}>请上传阿姨的评价截图（最多可上传 6 张）</div>
-                            <PreviewUploader value={!reviews || reviews === "" ? [] : reviews} max={6}  onChange={(urls) => { form.setFieldsValue({reviews: urls})}}/>
+                    return <Item name="reviews"  className={styles.uploaderItem}>
+                            <>
+                                <div className={styles.uploaderDesc}>请上传阿姨的评价截图（最多可上传 6 张）</div>
+                                <PreviewUploader value={!reviews || reviews === "" ? [] : reviews} max={6}  onChange={(urls) => { form.setFieldsValue({reviews: urls})}}/>
+                            </>
                         </Item>
                 }}
             </Item>
             <Item wrapperCol={{ offset: 4 }} className={styles.uploaderWrapper} shouldUpdate>
                 {({ getFieldValue }) => {
                     const recommend = getFieldValue('recommend');
-                    return <Item name="recommend"  className={styles.uploaderItem} >            
-                            <div className={styles.uploaderDesc}>请上传阿姨的推荐帖（最多可上传 6 张）</div>
-                            <PreviewUploader max={6} value={!recommend || recommend === "" ? [] : recommend} onChange={(urls) => { form.setFieldsValue({recommend: urls})}}/>
+                    return <Item name="recommend"  className={styles.uploaderItem}>
+                            <>        
+                                <div className={styles.uploaderDesc}>请上传阿姨的推荐帖（最多可上传 6 张）</div>
+                                <PreviewUploader max={6} value={!recommend || recommend === "" ? [] : recommend} onChange={(urls) => { form.setFieldsValue({recommend: urls})}}/>
+                            </>  
                         </Item>
                     }}
             </Item>
