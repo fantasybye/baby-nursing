@@ -93,6 +93,9 @@ export const PreviewUploader: React.FC<PreviewUploaderProps> = ({ value = [], ma
           const index = fileList.indexOf(file);
           const newFileList = fileList.slice();
           newFileList.splice(index, 1);
+          if(onChange) {
+            onChange(newFileList.filter((f) => !!f.url).filter((s) => s.status === 'done').map((item) => item.url!))
+          }
           setFileList(newFileList);
         }}
         beforeUpload={() => {

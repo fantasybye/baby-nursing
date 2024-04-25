@@ -79,9 +79,8 @@ export default function ResumeForm({ id } : { id?: string | null }) {
             <Item label="微信二维码" shouldUpdate>
                 {({ getFieldValue }) => {
                     const wx_uri = getFieldValue('wx_uri');
-                    console.log([wx_uri])
                     return <Item name="wx_uri" >
-                        <PreviewUploader value={[wx_uri]} onChange={(urls) => {if(urls.length === 1) form.setFieldsValue({wx_uri: urls[0]})}}/>
+                        <PreviewUploader value={[wx_uri]} onChange={(urls) => {if(urls.length === 1) form.setFieldsValue({wx_uri: urls[0]}); else form.setFieldsValue({wx_uri: undefined})}}/>
                     </Item>
                 }}
              </Item>
@@ -251,7 +250,7 @@ export default function ResumeForm({ id } : { id?: string | null }) {
                     return <Item name="head" className={styles.uploaderItem} >
                         <>
                             <div className={styles.uploaderDesc}>请上传阿姨的头像（最多可上传 1 张）</div>
-                            <PreviewUploader value={[head]} onChange={(urls) => {if(urls.length === 1) form.setFieldsValue({head: urls[0]})}}/>
+                            <PreviewUploader value={[head]} onChange={(urls) => {if(urls.length === 1) form.setFieldsValue({head: urls[0]}); else form.setFieldsValue({head: undefined})}}/>
                         </>
                     </Item>
                 }}
