@@ -28,7 +28,7 @@ export const PreviewUploader: React.FC<PreviewUploaderProps> = ({ value = [], ma
 
   useEffect(() => {
     if(value instanceof Array && value.filter((v) => v !== '').length) {
-      setFileList(value.map((v, index) => (
+      setFileList(value.filter((v) => v !== '').map((v, index) => (
         {
           uid: index.toString(),
           name: 'image.png',
@@ -44,6 +44,10 @@ export const PreviewUploader: React.FC<PreviewUploaderProps> = ({ value = [], ma
           status: 'done',
           url: value,
         }]
+      )
+    } else {
+      setFileList(
+        []
       )
     }
   }, [value])

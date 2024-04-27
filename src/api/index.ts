@@ -25,7 +25,7 @@ export function editEmployee(body: Resume) {
     })
 }
 
-export function editEmployeeShare(body: Share) {
+export function editEmployeeShare(body: Partial<Share>) {
     return post(`/employee_share_edit`, {
        ...body
     })

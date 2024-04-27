@@ -60,7 +60,7 @@ export interface Share {
     name: string;
     phone: string;
     status: ShareStatus
-    employee_id: string;
+    employee_id: number;
     cv_name: string;
     cv: string;
     reason: string;

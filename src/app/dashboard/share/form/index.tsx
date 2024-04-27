@@ -15,7 +15,7 @@ export default function ShareForm({ share, backward } : { share?: Share, backwar
         return <Empty description="没有找到对应的分享" />
     }
     return <Form form={form} labelCol={{ span: 4 }} onFinish={(vals) => {
-        editEmployeeShare({ ...vals, employee_id: Number(vals.employee_id) })
+        editEmployeeShare({ID: share.ID, status: share.status, employee_id: Number(vals.employee_id) })
             .then((res) => {
                 if(res.data.code === 0) {
                     message.success('分享通过')
