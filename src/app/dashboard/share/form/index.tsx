@@ -18,7 +18,7 @@ export default function ShareForm({ share, backward } : { share?: Share, backwar
         editEmployeeShare({ID: share.ID, status: share.status, employee_id: Number(vals.employee_id) })
             .then((res) => {
                 if(res.data.code === 0) {
-                    message.success('分享通过')
+                    message.success('关联简历 ID 成功')
                     backward();
                 } else {
                     message.error(res.data.msg)

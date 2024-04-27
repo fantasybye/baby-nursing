@@ -146,7 +146,7 @@ export default function Share() {
                             setCurrent(page)
                         }, 
                     }}
-                /> : <ShareForm share={share} backward={() => { setShare(undefined) }}/>}
+                /> : <ShareForm share={share} backward={() => { setShare(undefined);  fetchData(); }}/>}
         </Layout>
     </>
 }
