@@ -22,7 +22,7 @@ export default function Share() {
         showEmployeeShare({ current, pageSize: 20}).then((res) => {
             if(res.data.code === 0) {
                 const data = JSON.parse(res.data.data)
-                setDataSource(data.map((i: TShare) => ({ ...i, key: i.ID})))
+                setDataSource(data.sort((a: TShare, b: TShare) => b.ID - a.ID).map((i: TShare) => ({ ...i, key: i.ID})))
             } else {
                 message.error(res.data.msg)
             }

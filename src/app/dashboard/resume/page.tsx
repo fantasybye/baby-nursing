@@ -24,7 +24,7 @@ export default function Resume() {
         }).then((res) => {
             if(res.data.code === 0) {
                 const data = JSON.parse(res.data.data)
-                setDataSource(data.map((i: TResume) => ({ ...i, key: i.ID})))
+                setDataSource(data.sort((a: TResume, b: TResume) => b.ID - a.ID).map((i: TResume) => ({ ...i, key: i.ID})))
                 setHasMore(res.data.has_more === 1)
             } else {
                 message.error(res.data.msg)

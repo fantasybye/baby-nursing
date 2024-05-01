@@ -14,8 +14,8 @@ function post(path: string, params: Record<string, any>) {
 export function showEmployee(page: { current: number, pageSize: number}) {
     const { current, pageSize } = page;
     return get(`/employee_show`, {
-        offset: current,
-        num: pageSize
+        offset: pageSize,
+        num: current
     })
 }
 
@@ -39,8 +39,8 @@ export function showEmployeeDetail(body: { id: number, userId: number }) {
 export function showEmployeeShare(page: { current: number, pageSize: number}) {
     const { current, pageSize } = page;
     return get(`/employee_share_show`, {
-        offset: current,
-        num: pageSize
+        offset: pageSize,
+        num: current
     })
 }
 
