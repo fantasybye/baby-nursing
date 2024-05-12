@@ -24,6 +24,7 @@ export default function Share() {
             if(res.data.code === 0) {
                 const data = JSON.parse(res.data.data)
                 setDataSource(data.sort((a: TShare, b: TShare) => b.ID - a.ID).map((i: TShare) => ({ ...i, key: i.ID})))
+                setTotal(res.data.total_page * 15)
             } else {
                 message.error(res.data.msg)
             }

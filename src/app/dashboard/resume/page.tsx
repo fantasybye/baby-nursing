@@ -25,7 +25,7 @@ export default function Resume() {
             if(res.data.code === 0) {
                 const data = JSON.parse(res.data.data)
                 setDataSource(data.sort((a: TResume, b: TResume) => b.ID - a.ID).map((i: TResume) => ({ ...i, key: i.ID})))
-                setTotal(res.data.total_page)
+                setTotal(res.data.total_page * 15)
             } else {
                 message.error(res.data.msg)
             }
