@@ -15,7 +15,7 @@ type ResumeData = TResume & { key: React.Key }
 export default function Resume() {
     const [dataSource, setDataSource] = useState<ResumeData[]>([]);
     const [current, setCurrent] = useState<number>(1);
-    const [hasMore, setHasMore] = useState<boolean>(false);
+    const [total, setTotal] = useState<number>(0);
 
     const fetchData = useCallback(() => {
         showEmployee({
@@ -25,7 +25,7 @@ export default function Resume() {
             if(res.data.code === 0) {
                 const data = JSON.parse(res.data.data)
                 setDataSource(data.sort((a: TResume, b: TResume) => b.ID - a.ID).map((i: TResume) => ({ ...i, key: i.ID})))
-                setHasMore(res.data.has_more === 1)
+                setTotal(res.data.total_page)
             } else {
                 message.error(res.data.msg)
             }
@@ -104,11 +104,16 @@ export default function Resume() {
             <Table 
                 columns={columns} 
                 dataSource={dataSource} 
-                pagination={false}
+                pagination={{
+                    current,
+                    pageSize: 15,
+                    total,
+                    hideOnSinglePage: true, 
+                    onChange(page) {
+                        setCurrent(page)
+                    }, 
+                }}
             />
-            <div className={styles.footer}>
-                {hasMore && <Button type="primary" onClick={() => setCurrent((prev) => prev + 1)}>下一页</Button>}
-            </div>
         </Layout>
     </>
 }

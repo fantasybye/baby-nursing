@@ -17,6 +17,7 @@ export default function Share() {
     const [share, setShare] = useState<TShare>()
     const [current, setCurrent] = useState<number>(1);
     const [dataSource, setDataSource] = useState<ShareData[]>([]);
+    const [total, setTotal] = useState<number>(0)
 
     const fetchData = useCallback(() => {
         showEmployeeShare({ current, pageSize: 20}).then((res) => {
@@ -140,8 +141,10 @@ export default function Share() {
                     columns={columns} 
                     dataSource={dataSource} 
                     pagination={{ 
-                        hideOnSinglePage: true, 
                         pageSize: 20,
+                        total,
+                        current,
+                        hideOnSinglePage: true, 
                         onChange(page) {
                             setCurrent(page)
                         }, 
